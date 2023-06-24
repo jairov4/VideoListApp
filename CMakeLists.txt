@@ -14,13 +14,8 @@ set(SOURCES
     main.cpp
 )
 
-# Set the header files for the project
-set(HEADERS
-    videolistapp.h
-)
-
 # Add executable target
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE include/)
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
