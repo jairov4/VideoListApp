@@ -63,9 +63,7 @@ private slots:
             QString videoName = QFileInfo(videoPath).fileName();
 
             if (videoName.contains(searchText, Qt::CaseInsensitive)) {
-                QListWidgetItem *item = new QListWidgetItem(videoName);
-                item->setIcon(extractThumbnail(videoPath));
-                listWidget->addItem(item);
+                populateListItem(videoPath);
             }
         }
     }
@@ -121,25 +119,29 @@ private:
 
         while (it.hasNext()) {
             QString videoPath = it.next();
-            QFileInfo videoInfo(videoPath);
-
-            auto item = new QListWidgetItem();
-            item->setWhatsThis(videoInfo.filePath());
-            item->setSizeHint(QSize(0, 240));
-            auto pixmap = extractThumbnail(videoInfo.absoluteFilePath());
-            auto wight = new QWidget();
-            auto layout = new QHBoxLayout();
-            auto label0 = new QLabel();
-            label0->setPixmap(pixmap);
-            label0->setFixedSize(320, 240);
-            auto label1 = new QLabel(videoInfo.fileName());
-            layout->addWidget(label0);
-            layout->addWidget(label1);
-            wight->setLayout(layout);
-
-            listWidget->addItem(item);
-            listWidget->setItemWidget(item, wight);
+            populateListItem(videoPath);
         }
+    }
+
+    void populateListItem(QString videoPath) {
+        QFileInfo videoInfo(videoPath);
+
+        auto item = new QListWidgetItem();
+        item->setWhatsThis(videoInfo.filePath());
+        item->setSizeHint(QSize(0, 240));
+        auto pixmap = extractThumbnail(videoInfo.absoluteFilePath());
+        auto wight = new QWidget();
+        auto layout = new QHBoxLayout();
+        auto label0 = new QLabel();
+        label0->setPixmap(pixmap);
+        label0->setFixedSize(320, 240);
+        auto label1 = new QLabel(videoInfo.fileName());
+        layout->addWidget(label0);
+        layout->addWidget(label1);
+        wight->setLayout(layout);
+
+        listWidget->addItem(item);
+        listWidget->setItemWidget(item, wight);
     }
 
     QPixmap extractThumbnail(QString videoPath) {
